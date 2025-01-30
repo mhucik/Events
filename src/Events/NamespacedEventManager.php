@@ -97,7 +97,7 @@ class NamespacedEventManager extends \Kdyby\Events\EventManager
 	/**
 	 * {@inheritDoc}
 	 */
-	public function addEventListener($events, $subscriber, $priority = 0)
+	public function addEventListener(string|array $events, object $subscriber, $priority = 0): void
 	{
 		foreach ((array) $events as $eventName) {
 			[$ns, $event] = Event::parseName($eventName);
