@@ -75,7 +75,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	 * @param string $eventName The name of the event to dispatch. The name of the event is the name of the method that is invoked on listeners.
 	 * @param \Doctrine\Common\EventArgs $eventArgs The event arguments to pass to the event handlers/listeners. If not supplied, the single empty EventArgs instance is used
 	 */
-	public function dispatchEvent($eventName, DoctrineEventArgs $eventArgs = NULL)
+	public function dispatchEvent(string $eventName, ?DoctrineEventArgs $eventArgs = NULL): void
 	{
 		if ($this->panel) {
 			$this->panel->eventDispatch($eventName, $eventArgs);
@@ -118,7 +118,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	 * @param string|null $eventName
 	 * @return \Doctrine\Common\EventSubscriber[]|callable[]|\Doctrine\Common\EventSubscriber[][]|callable[][]
 	 */
-	public function getListeners($eventName = NULL)
+	public function getListeners(string $eventName = NULL): array
 	{
 		if ($eventName !== NULL) {
 			if (!isset($this->sorted[$eventName])) {
@@ -143,7 +143,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	 * @param string|null $eventName
 	 * @return bool TRUE if the specified event has any listeners, FALSE otherwise.
 	 */
-	public function hasListeners($eventName)
+	public function hasListeners(string $eventName): bool
 	{
 		return (bool) count($this->getListeners($eventName));
 	}
@@ -156,7 +156,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	 * @param int $priority
 	 * @throws \Kdyby\Events\InvalidListenerException
 	 */
-	public function addEventListener($events, $subscriber, $priority = 0)
+	public function addEventListener(string|array $events, object $subscriber, $priority = 0): void
 	{
 		foreach ((array) $events as $eventName) {
 			[, $event] = Event::parseName($eventName);
@@ -184,7 +184,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	 * @param \Doctrine\Common\EventSubscriber|\Closure|array|string $unsubscribe
 	 * @param \Doctrine\Common\EventSubscriber|\Closure|array $subscriber
 	 */
-	public function removeEventListener($unsubscribe, $subscriber = NULL)
+	public function removeEventListener(string|array $unsubscribe, object $subscriber = NULL): void
 	{
 		if ($unsubscribe instanceof EventSubscriber) {
 			[$unsubscribe, $subscriber] = $this->extractSubscriber($unsubscribe);
@@ -272,7 +272,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	/**
 	 * {@inheritdoc}
 	 */
-	public function addEventSubscriber(EventSubscriber $subscriber)
+	public function addEventSubscriber(EventSubscriber $subscriber): void
 	{
 		$hash = spl_object_hash($subscriber);
 		if (isset($this->subscribers[$hash])) {
@@ -303,7 +303,7 @@ class EventManager extends \Doctrine\Common\EventManager
 	/**
 	 * {@inheritdoc}
 	 */
-	public function removeEventSubscriber(EventSubscriber $subscriber)
+	public function removeEventSubscriber(EventSubscriber $subscriber): void
 	{
 		$this->removeEventListener($subscriber);
 	}

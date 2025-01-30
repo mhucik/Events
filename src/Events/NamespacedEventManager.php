@@ -40,7 +40,7 @@ class NamespacedEventManager extends \Kdyby\Events\EventManager
 	/**
 	 * {@inheritDoc}
 	 */
-	public function dispatchEvent($eventName, DoctrineEventArgs $eventArgs = NULL)
+    public function dispatchEvent(string $eventName, ?DoctrineEventArgs $eventArgs = NULL): void
 	{
 		[$ns, $event] = Event::parseName($eventName);
 
@@ -54,7 +54,7 @@ class NamespacedEventManager extends \Kdyby\Events\EventManager
 	/**
 	 * {@inheritDoc}
 	 */
-	public function getListeners($eventName = NULL)
+	public function getListeners(string $eventName = null): array
 	{
 		if ($eventName === NULL) {
 			$listeners = [];
@@ -83,7 +83,7 @@ class NamespacedEventManager extends \Kdyby\Events\EventManager
 	/**
 	 * {@inheritDoc}
 	 */
-	public function hasListeners($eventName)
+	public function hasListeners(string $eventName): bool
 	{
 		[$ns, $event] = Event::parseName($eventName);
 

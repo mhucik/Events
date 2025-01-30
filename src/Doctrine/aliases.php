@@ -13,17 +13,17 @@ namespace Doctrine\Common {
 	}
 
 	abstract class EventManager {
-		public function addEventSubscriber(EventSubscriber $subscriber) {
+		public function addEventSubscriber(EventSubscriber $subscriber): void {
 			$this->addEventListener($subscriber->getSubscribedEvents(), $subscriber);
 		}
 
-		public function removeEventSubscriber(EventSubscriber $subscriber) {
+		public function removeEventSubscriber(EventSubscriber $subscriber): void {
 			$this->removeEventListener($subscriber->getSubscribedEvents(), $subscriber);
 		}
 
-		abstract public function addEventListener($events, $listener);
+		abstract public function addEventListener(string|array $events, object $listener): void;
 
-		abstract public function removeEventListener($events, $listener = NULL);
+		abstract public function removeEventListener(string|array $events, object $listener = NULL): void;
 	}
 
 	interface EventSubscriber {
