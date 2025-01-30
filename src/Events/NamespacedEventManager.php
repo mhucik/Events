@@ -108,7 +108,7 @@ class NamespacedEventManager extends \Kdyby\Events\EventManager
 	/**
 	 * {@inheritDoc}
 	 */
-	public function removeEventListener($unsubscribe, $subscriber = NULL)
+	public function removeEventListener(string|array $unsubscribe, object $subscriber = NULL): void
 	{
 		if ($unsubscribe instanceof EventSubscriber) {
 			$subscriber = $unsubscribe;
