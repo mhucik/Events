@@ -186,12 +186,6 @@ class EventManager extends \Doctrine\Common\EventManager
 	 */
 	public function removeEventListener(string|array $unsubscribe, object $subscriber = NULL): void
 	{
-		if ($unsubscribe instanceof EventSubscriber) {
-			[$unsubscribe, $subscriber] = $this->extractSubscriber($unsubscribe);
-		} elseif ($unsubscribe instanceof Closure) {
-			[$unsubscribe, $subscriber] = $this->extractCallable($unsubscribe);
-		}
-
 		foreach ((array) $unsubscribe as $eventName) {
 			$eventName = ltrim($eventName, '\\');
 			foreach ($this->listeners[$eventName] as $priority => $listeners) {
@@ -305,7 +299,9 @@ class EventManager extends \Doctrine\Common\EventManager
 	 */
 	public function removeEventSubscriber(EventSubscriber $subscriber): void
 	{
-		$this->removeEventListener($subscriber);
+        [$unsubscribe, $subscriber] = $this->extractSubscriber($subscriber);
+
+        $this->removeEventListener($unsubscribe, $subscriber);
 	}
 
 	/**

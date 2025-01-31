@@ -110,28 +110,12 @@ class NamespacedEventManager extends \Kdyby\Events\EventManager
 	 */
 	public function removeEventListener(string|array $unsubscribe, object $subscriber = NULL): void
 	{
-		if ($unsubscribe instanceof EventSubscriber) {
-			$subscriber = $unsubscribe;
-			$unsubscribe = [];
-
-			foreach ($subscriber->getSubscribedEvents() as $eventName => $params) {
-				if ((is_array($params) && is_array($params[0])) || !is_numeric($eventName)) {
-					// [EventName => [[method, priority], ...], ...]
-					// [EventName => [method, priority], ...] && [EventName => method, .
-					$unsubscribe[] = $eventName;
-
-				} else { // [EventName, ...]
-					$unsubscribe[] = $params;
-				}
-			}
-		}
-
 		$unsubscribe = array_map(function ($eventName) {
 			[$ns, $event] = Event::parseName($eventName);
 			return $ns === NULL ? $this->namespace . $event : $eventName;
 		}, (array) $unsubscribe);
 
-		$this->evm->removeEventListener($unsubscribe, $subscriber);
+        $this->evm->removeEventListener($unsubscribe, $subscriber);
 	}
 
 	/**

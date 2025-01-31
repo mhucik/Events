@@ -69,12 +69,6 @@ class LazyEventManager extends \Kdyby\Events\EventManager
 	 */
     public function removeEventListener(string|array $unsubscribe, object $subscriber = NULL): void
 	{
-		if ($unsubscribe instanceof EventSubscriber) {
-			[$unsubscribe, $subscriber] = $this->extractSubscriber($unsubscribe);
-		} elseif ($unsubscribe instanceof Closure) {
-			[$unsubscribe, $subscriber] = $this->extractCallable($unsubscribe);
-		}
-
 		foreach ((array) $unsubscribe as $eventName) {
 			if (array_key_exists($eventName, $this->listenerIds)) {
 				$this->initializeListener($eventName);
