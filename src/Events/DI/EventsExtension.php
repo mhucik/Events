@@ -407,7 +407,7 @@ class EventsExtension extends \Nette\DI\CompilerExtension
 			}
 
 			$dispatchAnnotation = self::propertyHasAnnotation($property, 'globalDispatchFirst');
-			$def->addSetup('$' . $name, [
+			$def->addSetup('$' . $name . '[]', [
 				new Statement($this->prefix('@manager') . '::createEvent', [
 					[$class->getName(), $name],
 					new PhpLiteral('$service->' . $name),
